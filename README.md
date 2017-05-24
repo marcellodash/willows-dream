@@ -10,33 +10,14 @@ These instructions will get you a copy of the project up and running on your loc
 
 ```
 SGDK
-DGen/SDL - Multi-platform Genesis/Mega Drive Emulator (or similar emulation software)
+DGen
 ```
 
 ### Installing
 
-```
-Full installation guide for SGDK found at the [SGDK GitHub](https://github.com/Stephane-D/SGDK/wiki/Setup-SGDK-basic).
-```
+Compile all project dependencies by running _build_lib.bat_ located in the project's top level directory. This will set PATH variables for and compile _SGDK_. _DGen_ is included precompiled and doesn't require system configuration.
 
-Installation and use of SGDK from command line (Windows OS only).
-
-1. Download the SGDK archive from the [Download page](https://github.com/Stephane-D/SGDK/wiki/Download) and unzip it where it suits to you (for instance D:/sgdk).
-2. Define _GDK_ environment variable to your installation path in unix path format (example D:/sgdk).
-3. Define _GDK_WIN_ which still point to your installation path but in windows format (example D:\sgdk).
-4. Add the _bin_ directory of devkit (%GDK_WIN%\bin) to your PATH variable. Be careful, if you have another GCC installation you can have some conflicts when cc1 command will be called.
-5. Now you can compile the library by using:
-
-```
-%GDK_WIN%\bin\make -f %GDK_WIN%\makelib.gen
-```
-
-When the library is compiled you should obtain the following files
-```
-%GDK%/lib/libmd.a
-```
-
-You can now compile the game, _Willow's Dream_, by using the build.bat file located in the project's top level directory.
+You can now compile the project, _Willow's Dream_, by using the _build.bat_ file located in the project's top level directory. This batch file will ask if you would like to open the compiled rom in DGen to playtest the game on emulation software.
 
 ## Deployment
 

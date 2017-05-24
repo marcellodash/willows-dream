@@ -1,0 +1,171 @@
+DGEN(1)                   BSD General Commands Manual                  DGEN(1)
+
+NAME
+     dgen — Sega Genesis/Mega Drive emulator
+
+SYNOPSIS
+     dgen [-Pfhmv] [-R (J|U|E)] [-H HZ] [-D DEMONAME] [-d DEMONAME] [-n USEC]
+          [-p CODE,CODE...] [-r RCFILE] [-X XFACT] [-Y YFACT] [-S FACT]
+          [-g (0|1)] [-G XxY] [-s SLOT] [romname [...]]
+
+DESCRIPTION
+     The ROM image in the file romname is executed, as emulated on a Sega Gen‐
+     esis or Mega Drive running in 60Hz NTSC mode (unless the -P option is
+     specified, in which case 50Hz PAL mode is used).  romname should be in
+     raw binary or SMD format, and may be compressed with gzip(1), zip(1), or
+     bzip2(1).
+
+     When romname isn't specified, DGen starts without a ROM. It can be loaded
+     later from the prompt. When more than a single romname is specified, they
+     are executed sequentially.
+
+     The options are as follows:
+
+     -H HZ       Use a custom frame rate, can be used to accelerate or slow
+                 down emulation.
+
+     -P          Emulate 50Hz PAL mode (as used in European models of the Mega
+                 Drive).
+
+     -R (J|U|E)  Emulator region. Without this option, DGen uses the first
+                 region mentioned in the ROM header. It should be combined
+                 with -P for PAL mode. See below.
+
+                 (none)      Autodetect (NTSC, 60Hz)
+
+                 -P          Autodetect (PAL, 50Hz)
+
+                 -R J        Japan (NTSC, 60Hz)
+
+                 -R J -P     Japan (PAL, 50Hz)
+
+                 -R E        Europe (NTSC, 60Hz, music will certainly play too
+                             fast)
+
+                 -R E -P     Europe (PAL, 50Hz)
+
+                 -R U        America (NTSC, 60Hz)
+
+                 -R U -P     Same as -R E -P
+
+     -f          Run fullscreen, if possible.
+
+     -h          Show a brief synopsis of all options.
+
+     -m          MinGW only. This option prevents DGen from detaching from its
+                 control console.
+
+     -v          Show the version number, and exit.
+
+     -D DEMONAME
+                 Play back a demo recorded with the -d option.
+
+     -d DEMONAME
+                 Record a demo of the program running, which can be later
+                 replayed with the -D switch.
+
+     -n USEC     Sleep for a number of microseconds after every frame, to give
+                 time to other processes.
+
+     -p CODE,CODE...
+                 Modify the ROM image in memory, using Game Genie or Hex style
+                 codes. Game Genie codes are of the form ABCD-EFGH and Hex
+                 codes are in the form 123456:ABCD.  To specify more than one
+                 code, separate them with commas (do not use spaces).
+
+     -r RCFILE   Parse another rc file after $HOME/.dgen/dgenrc. Values in the
+                 specified file override those in the preceding files.
+
+     -X XFACT    Scale the window XFACT times in the X direction. XFACT must
+                 be a positive integer.
+
+     -Y YFACT    Scale the window YFACT times in the Y direction. YFACT must
+                 be a positive integer.
+
+     -S FACT     Scale the window FACT times in both directions. FACT must be
+                 a positive integer.
+
+     -g (0|1)    Enable/disable OpenGL (if compiled-in).
+
+     -G XxY      Desired window size (e.g. 640x480, 800x600, etc.)
+
+     -s SLOT     Load the saved state from the given slot at startup (0-9)
+
+INTERACTIVE PROMPT
+     A minimalist interactive prompt inspired from vi(1) can be used to per‐
+     form various operations described below. It is triggered by pressing
+     colon (:), the default key. Command-line editing, history and completion
+     are supported.
+
+   Commands
+     {quit, exit, q}
+           Quit, or load the next romname from command-line, if any.
+
+     {load, open, plug, o} filename
+           Load a given ROM filename.
+
+     {unload, close, unplug}
+           Unload the current ROM.
+
+     config_load filename
+           Load configuration from file filename.
+
+     config_save filename
+           Save current configuration to file filename.
+
+     reset
+           Genesis reset.
+
+     {ctv_push, ctv_pop, ctv_none}
+           Manage the stack of Crap TV filters (if compiled-in).
+
+     calibrate number
+           Interactive calibration of the specified gamepad (1 or 2). If
+           number isn't specified, default to 1.
+
+     unbind binding [...]
+           Remove specified bindings (variables prefixed with "bind_").  See
+           dgenrc(5) for more information about them.
+
+     vgmdump start filename
+
+     vgmdump stop
+           Manages VGM dumping/logging. If the second argument is start VGM
+           dumping will be started at the path specified by the third argu‐
+           ment.  If the second argument is stop VGM dumping will be stopped
+           and the dump finalized.
+
+   Variables
+     All configuration variables from dgenrc(5) can be displayed and modified
+     interactively, with immediate effect.
+
+     {int_name, bool_name, key_name, joy_name, ...} {value}
+           Affect value to variable name.
+
+     {int_name, bool_name, key_name, joy_name, ...}
+           Display current value for variable name.
+
+FILES
+     $HOME/.dgen/dgenrc        Contains user settings for the emulator.
+     $HOME/.dgen/dgenrc.auto   Generated file containing saved user settings.
+     $HOME/.dgen/saves/*       Save states generated by the emulator.
+     $HOME/.dgen/ram/*         Battery-backup RAM images, generated by the
+                               emulator for ROMs with save RAM.
+     $HOME/.dgen/screenshots/*
+                               Screenshots are generated there.
+     $HOME/.dgen/roms/*        ROMs default search path.
+     $HOME/.dgen/demos/*       Demos default search path.
+
+SEE ALSO
+     gzip(1), bzip2(1), zip(1), dgenrc(5)
+
+AUTHORS
+     This manual page was written by Joe Groff ⟨joe@pknet.com⟩.
+     Updated by zamaz ⟨zamaz@users.sourceforge.net⟩.
+
+BUGS
+     There are known emulation bugs, see BUGS in DGen source package.
+
+     Report bugs to ⟨http://sourceforge.net/projects/dgen/⟩.
+
+BSD                              July 26, 2014                             BSD
