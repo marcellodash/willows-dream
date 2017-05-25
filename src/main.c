@@ -6,7 +6,7 @@
  */
 
 #include <genesis.h>
-#include "gfx.h"
+#include "resources.h"
 #include "helper.h"
 
 #define GLOBALS_PAUSED 1
@@ -30,8 +30,10 @@ int main() {
     VDP_drawText("Game Paused", ((screenWidth >> 3) - 11) >> 1, (screenHeight >> 4) - 1);
 
     ind = TILE_USERINDEX;
+    /*
     VDP_drawImageEx(PLAN_B, &imagetest, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, ind), 0, 0, FALSE, TRUE);
     ind += imagetest.tileset->numTile;
+    */
 
     // VDP process done, we can re-enable interrupts
     SYS_enableInts();
@@ -40,10 +42,10 @@ int main() {
     updateCamera(FIX32(0), FIX32(0));
 
     // Prepare palettes
-    memcpy(&palette[0], imagetest.palette->data, 16 * 2);
+    // memcpy(&palette[0], imagetest.palette->data, 16 * 2);
 
     // Fade in
-    VDP_fadeIn(0, (1 * 16) - 1, palette, 20, FALSE);
+    // VDP_fadeIn(0, (1 * 16) - 1, palette, 20, FALSE);
 
     // Initialize Joystick
     JOY_init();
@@ -65,11 +67,26 @@ int main() {
 
 static void loop() {
     // Game loop
+    updateCamera(camposx, camposy);
 }
 
 static void joyHandler(u16 joy, u16 changed, u16 state) {
-    if (changed & BUTTON_UP) { // Start button pressed
-        toggle(&globals, GLOBALS_PAUSED); // Toggle paused bit
+    if (joy == JOY_1) {
+        if (changed & BUTTON_START) { // Start button released
+            toggle(&globals, GLOBALS_PAUSED); // Toggle paused bit
+        }
+        if (state & BUTTON_RIGHT) { // Right button pressed
+            camposx++;
+        }
+        if (state & BUTTON_LEFT) { // Left button pressed
+            camposx--;
+        }
+        if (state & BUTTON_UP) { // Up button pressed
+            camposy--;
+        }
+        if (state & BUTTON_DOWN) { // Down button pressed
+            camposy++;
+        }
     }
 }
 

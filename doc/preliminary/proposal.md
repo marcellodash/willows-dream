@@ -5,7 +5,7 @@
 Willow's Dream is set to be a open-source platformer game with RPG elements developed for the Sega Genesis with plans to port the game to the SNES. There are many advantages to developing a modern game for an older generation game console.
 
 * Staying true to iconic themes and concepts will gain the reverence of niche communities of retro game collectors.
-* Carefully designing within the system's hardware limitations will make for an exciting challenge.
+* Designing within the system's hardware limitations will make for an exciting challenge.
 * Keeping the project an open-source and collaborative experience will provide a platform for others to be inspired.
 * Due to the wide availability of software and hardware emulators, developing for a vintage console will ensure cross-platform distribution (ex: [RetroPie](https://retropie.org.uk/), [Retron](https://hyperkin.com/Retron5/), etc).
 
@@ -19,16 +19,20 @@ Willow's Dream is set to be a open-source platformer game with RPG elements deve
 
 ## Artwork
 
+The visual artwork of Willow's Dream is going to push the boundaries of the Sega Genesis's video capabilities. Though the artwork will stay true to the vintage appeal and data limitations of 16-bit pixel art, advanced visual effects such as particles and parallax scrolling will be employed to enhance the user experience and visual depth of the 2D graphics.
+
+The artwork timeline will go in three phases: concept art, 16-bit pixel art interpretation, and final pixel refinement for hardware implementation.
+
 ## Gameplay
 
 ### Feature Overview
 
-Willow's Dream will incorporate many of the features of later Sega Genesis games as well as some unique capabilities.
+Willow's Dream will incorporate the features of later Sega Genesis games as well as some unique capabilities.
 
 #### Game
 
-* Single player or co-op story mode with multiple levels employing different gameplay elements and characters/themes.
-* Quick multiplayer game modes. More than 2 teams (or 1-2 players each) will enable split screen graphics similar to [Sonic the Hedgehog 2](http://www.segabits.com/wp-content/uploads/2011/03/SEQSAT7.png). Multiple game types and minigames could be implemented if ROM size allows for it.
+* Single player or co-op story mode with levels employing different gameplay elements and characters/themes.
+* Quick multiplayer game modes. More than 2 teams (or 1-2 players each) will enable split screen graphics such as [Sonic the Hedgehog 2](http://www.segabits.com/wp-content/uploads/2011/03/SEQSAT7.png). Different game types and minigames will be implemented if ROM size allows for it.
 
 #### Graphics
 
@@ -43,6 +47,6 @@ Currently, there are no plans for crowd-funding this project. If community inter
 
 ## License
 
-It is in the best interest of the project and it's potential community to maintain an open-source model. In initial development, external contributions will not considered heavily in order to maintain healthy control over story and gameplay. During later stages of development, community contributions through beta testing and pull requests will be encouraged.
+It is in the best interest of the project and it's potential community to maintain an open-source model. In initial development, external contributions will not considered to maintain healthy control over story and gameplay by the team. During later stages of development, community contributions through beta testing and pull requests will be encouraged.
 
 > Currently, the project is licensed with the GNU LGPL V3.0 license. This permits that the code, multimedia assets, and distributable software is all available freely for viewing, execution, and non-commercial distribution. Commercial sale of the project by a third-party is not permitted without a written agreement between the project's creators and the distributor in question. If a derivative project that is deemed significantly different than it's predecessor is created with the freely available code and assets, then it is permitted to be sold commercially in digital or physical form.

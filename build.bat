@@ -88,6 +88,14 @@
     %GDK_WIN%\bin\make -f %GDK_WIN%\makelib.gen clean
     %GDK_WIN%\bin\make -f %GDK_WIN%\makelib.gen
 
+    if %errorlevel% neq 0 (
+        echo.
+        echo Failed to build SGDK!
+        echo Press any key to exit...
+        pause >nul
+        exit /b %errorlevel%
+    )
+
     echo.
     echo SGDK build sucessful!
 
@@ -120,7 +128,26 @@
     set ASMZ80=%BIN%/sjasm
     set MACCER=%BIN%/mac68k
 
+    echo Building resources...
+    %GDK_WIN%\bin\rescomp .\res\resources.res
+    if %errorlevel% neq 0 (
+        echo.
+        echo Failed to build project resources!
+        echo Press any key to exit...
+        pause >nul
+        exit /b %errorlevel%
+    )
+
+    echo.
+    echo Building source files...
     %GDK_WIN%\bin\make -f %GDK_WIN%\makefile.gen
+    if %errorlevel% neq 0 (
+        echo.
+        echo Failed to build project source files!
+        echo Press any key to exit...
+        pause >nul
+        exit /b %errorlevel%
+    )
 
     echo.
     echo Willow's Dream build successful!
