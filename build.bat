@@ -55,6 +55,34 @@
     echo PATH is %PATH%
 
     echo.
+    echo Checking if SGDK is built...
+
+    if exist %GDK_WIN%\lib\libmd.a (
+        echo SGDK build files found.
+        goto BUILD_LIB_QUERY
+    ) else (
+        echo SGDK build files could not be found.
+        goto BUILD_LIB_START
+    )
+
+:BUILD_LIB_QUERY
+
+    echo.
+    echo Would you like to rebuild SGDK? (y/n)
+    echo.
+
+    set INPUT=
+    set /P INPUT=Type input: %=%
+
+    if /i "%INPUT%"=="y" goto BUILD_LIB_START
+    if /i "%INPUT%"=="n" goto BUILD_LIB_SKIP
+    echo Incorrect input
+    echo.
+    goto BUILD_LIB_QUERY
+
+:BUILD_LIB_START
+
+    echo.
     echo Building SGDK...
     echo.
     %GDK_WIN%\bin\make -f %GDK_WIN%\makelib.gen clean
@@ -63,7 +91,9 @@
     echo.
     echo SGDK build sucessful!
 
-:COMPILE
+:BUILD_LIB_SKIP
+
+:BUILD_ROM
 
     echo.
     echo 2) Building ROM
@@ -90,16 +120,13 @@
     set ASMZ80=%BIN%/sjasm
     set MACCER=%BIN%/mac68k
 
-
     %GDK_WIN%\bin\make -f %GDK_WIN%\makefile.gen
 
     echo.
     echo Willow's Dream build successful!
 
-:COMPILE
+:CLEANUP
 
-    echo.
-    echo.
     echo.
     echo 3) Cleanup
     echo ----------
@@ -111,16 +138,14 @@
 :EMULATION
 
     echo.
-    echo.
-    echo.
     echo 4) Genesis Emulation
     echo --------------------
     echo.
 
 :EMULATION_QUERY
 
-    echo Would like to run Willow's Dream in Sega Genesis/Master Drive
-    echo     emulation software? (y/n)
+    echo Would you like to run Willow's Dream in Sega Genesis/Master
+    echo     Drive emulation software? (y/n)
     echo.
 
     set INPUT=
@@ -141,8 +166,6 @@
 
 :END_BUILD
 
-    echo.
-    echo.
     echo.
     echo 5) Build Complete
     echo -----------------
