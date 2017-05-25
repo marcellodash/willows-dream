@@ -8,10 +8,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+All prerequisites are included in the master repository and do not require additional configuration.
+
 ```
-SGDK
+SGDK*
 DGen
 ```
+<sub>\* = Required</sub>
 
 ### Installing
 
@@ -27,6 +30,7 @@ Physical distribution for commercial use (whether in cartridge or compact format
 
 * [SDGK](https://github.com/Stephane-D/SGDK/wiki) - The Sega Genesis/Mega Drive development kit used
 * [DGEN/SDL](http://dgen.sourceforge.net/) - The Sega Genesis/Mega Drive emulator used for testing
+* [DefleMask](http://deflemask.com/) - Multi-system chiptune tracker used to compose music and export music ROM files
 
 ## Contributing
 
