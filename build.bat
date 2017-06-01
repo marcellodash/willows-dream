@@ -128,15 +128,26 @@
     set ASMZ80=%BIN%/sjasm
     set MACCER=%BIN%/mac68k
 
-    echo Building resources...
-    %GDK_WIN%\bin\rescomp .\res\resources.res
+    echo.
+    echo Removing old build files...
+    RMDIR /S /Q .\out
     if %errorlevel% neq 0 (
         echo.
-        echo Failed to build project resources!
+        echo Failed to remove old project build files!
         echo Press any key to exit...
         pause >nul
         exit /b %errorlevel%
     )
+
+REM     echo Building resources...
+REM     %GDK_WIN%\bin\rescomp .\res\resources.res
+REM     if %errorlevel% neq 0 (
+REM         echo.
+REM         echo Failed to build project resources!
+REM         echo Press any key to exit...
+REM         pause >nul
+REM         exit /b %errorlevel%
+REM     )
 
     echo.
     echo Building source files...

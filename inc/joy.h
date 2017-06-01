@@ -12,6 +12,6 @@
 
 u8 JOY_paused;
 
-void JOY_inputHandler(u16 joy, u16 changed, u16 state);
+void JOY_inputHandler(u16, u16, u16);
 
 #endif

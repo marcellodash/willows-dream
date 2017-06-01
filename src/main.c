@@ -6,8 +6,6 @@
  */
 
 #include <genesis.h>
-#include "resources.h"
-#include "helper.h"
 #include "scene.h"
 #include "scenes.h"
 
