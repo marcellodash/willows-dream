@@ -18,9 +18,7 @@ DGen
 
 ### Installing
 
-Compile all project dependencies by running _build_lib.bat_ located in the project's top level directory. This will set PATH variables for and compile _SGDK_. _DGen_ is included precompiled and doesn't require system configuration.
-
-You can now compile the project, _Willow's Dream_, by using the _build.bat_ file located in the project's top level directory. This batch file will ask if you would like to open the compiled rom in DGen to playtest the game on emulation software.
+Compile all project dependencies by running _build.bat_ located in the project's top level directory. This will temporarily set environment variables, compile _SGDK_ (if not already compiled), wipe the previous build of the project, compile _Willow's Dream_ and all of its resources, and ask if you would like to open the compiled rom in DGen to playtest the game on an emulated Sega Genesis environment. _DGen_ is included precompiled and doesn't require system configuration.
 
 ## Deployment
 
@@ -31,6 +29,7 @@ Physical distribution for commercial use (whether in cartridge or compact format
 * [SDGK](https://github.com/Stephane-D/SGDK/wiki) - The Sega Genesis/Mega Drive development kit used
 * [DGEN/SDL](http://dgen.sourceforge.net/) - The Sega Genesis/Mega Drive emulator used for testing
 * [DefleMask](http://deflemask.com/) - Multi-system chiptune tracker used to compose music and export music ROM files
+* [Pyxel Edit](http://pyxeledit.com/) - Pixel art editor for sprites, animations, tilesets, and tilemaps
 
 ## Contributing
 
