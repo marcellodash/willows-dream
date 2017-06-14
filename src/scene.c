@@ -32,7 +32,7 @@ void SCN_loadScene(Scene *scene) {
         if ((SCN_active->sprite)) SCN_active->sprite();
         SPR_update();
 
-        VDP_fadeIn(0, (4 * 16) - 1, SCN_palette, 20, FALSE);
+        VDP_fadeIn(0, (SCN_NUM_PALETTES * SCN_PALETTE_SIZE) - 1, SCN_palette, SCN_FADE_DURATION, FALSE);
 
         JOY_setEventHandler(&SCN_joyHandler);
     }
@@ -48,7 +48,6 @@ void SCN_joyHandler(u16 joy, u16 changed, u16 state) {
 void SCN_updateScene() {
     if (!(SCN_active)) return;
 
-    if ((SCN_active->input)) SCN_active->input();
     if ((SCN_active->updateLogic)) SCN_active->updateLogic();
     if ((SCN_active->updateGfx)) SCN_active->updateGfx();
 
@@ -61,6 +60,8 @@ void SCN_cleanScene() {
     if (!(SCN_active)) return;
 
     JOY_setEventHandler(NULL);
+
+    VDP_fadeOut(0, (SCN_NUM_PALETTES * SCN_PALETTE_SIZE) - 1, SCN_FADE_DURATION, FALSE);
     SCN_resetPalettes();
     SPR_clear();
 

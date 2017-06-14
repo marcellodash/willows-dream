@@ -12,6 +12,7 @@
 
 #define SCN_NUM_PALETTES 4
 #define SCN_PALETTE_SIZE 16
+#define SCN_FADE_DURATION 20
 
 typedef void SCN_audioFunc();
 typedef void SCN_displayFunc();
@@ -20,7 +21,6 @@ typedef void SCN_spriteFunc();
 typedef void SCN_joyFunc(u16 joy, u16 changed, u16 state);
 typedef void SCN_updateLogicFunc();
 typedef void SCN_updateGfxFunc();
-typedef void SCN_inputFunc();
 typedef void SCN_cleanFunc();
 
 typedef struct sceneData {
@@ -31,7 +31,6 @@ typedef struct sceneData {
     SCN_joyFunc *joy;
     SCN_updateLogicFunc *updateLogic;
     SCN_updateGfxFunc *updateGfx;
-    SCN_inputFunc *input;
     SCN_cleanFunc *clean;
 } Scene;
 

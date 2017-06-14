@@ -78,7 +78,7 @@ void SCN_title_updateGfx() {
     for (i = 0; i < SCN_TITLE_NUM_STARS; i++) {
         SCN_title_stars_y[i] += FIX32(0.25); // SCN_title_stars_rate[i];
         if (fix32ToInt(SCN_title_stars_y[i]) > VDP_getScreenHeight()) {
-            //SCN_title_stars_x[i] = FIX32(random() % VDP_getScreenWidth());
+            SCN_title_stars_x[i] = FIX32(random() % VDP_getScreenWidth());
             SCN_title_stars_y[i] = FIX32(-8);
         }
 
@@ -95,10 +95,6 @@ void SCN_title_updateGfx() {
     }
 }
 
-void SCN_title_input() {
-
-}
-
 Scene SCN_title = {
     &SCN_title_audio, // SCN_audioFunc
     &SCN_title_display, // SCN_displayFunc
@@ -107,6 +103,5 @@ Scene SCN_title = {
     &SCN_title_joy, // SCN_joyFunc
     &SCN_title_updateLogic, // SCN_updateLogicFunc
     &SCN_title_updateGfx, // SCN_updateGfxFunc
-    &SCN_title_input, // SCN_inputFunc
     NULL // SCN_cleanFunc
 };

@@ -11,5 +11,6 @@
 #include "scene.h"
 
 Scene SCN_title;
+Scene SCN_phys_test;
 
 #endif
