@@ -6,6 +6,7 @@
  */
 
 #include <genesis.h>
+#include "audio.h"
 #include "scene.h"
 #include "scenes.h"
 
@@ -15,6 +16,7 @@ int main() {
     VDP_setScreenWidth320(); // Screen Initialization
     SYS_enableInts(); // VDP process done, we can re-enable interrupts
 
+    AUD_init(); // Initialize Audio
     JOY_init(); // Initialize Joystick
 
     SCN_loadScene(&SCN_title);
