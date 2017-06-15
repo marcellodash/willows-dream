@@ -10,8 +10,17 @@
 
 #include <genesis.h>
 
+// Maths Tut: https://github.com/Stephane-D/SGDK/wiki/Tuto-Maths
+// Maths Header: https://github.com/Stephane-D/SGDK/blob/master/inc/maths.h
+
+#define PHY_TYPE_POINT 0
+#define PHY_TYPE_RECT 1
+#define PHY_TYPE_CIRCLE 2
+
 /*
 typedef struct {
+    u8 type;
+
     Vect2D_f16 pos;
     Vect2D_f16 vel;
     Vect2D_f16 acc;
@@ -20,13 +29,7 @@ typedef struct {
     Vect2D_f16 size;
 } PHY_entity;
 
-typdef struct {
-    Vect2D_f16 min;
-    Vect2D_f16 max;
-} PHY_rect;
-
 u8 PHY_collision(PHY_entity a, PHY_entity b);
-PHY_rect PHY_bounds(PHY_entity a);
 */
 
 #endif
