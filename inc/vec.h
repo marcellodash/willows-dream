@@ -51,5 +51,8 @@ vec VEC_left(vec a);
 vec VEC_right(vec a);
 vec VEC_rotate(vec a, f32 b);
 //f32 VEC_angle(vec a);
+vec VEC_abs(vec a);
+vec VEC_bitr(vec a, u8 shift);
+vec VEC_bitl(vec a, u8 shift);
 
 #endif

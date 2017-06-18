@@ -70,3 +70,12 @@ vec VEC_angle(vec a) {
     return atan2(a.y, a.x);
 }
 */
+vec VEC_abs(vec a) {
+    return VEC2D(abs(a.x), abs(a.y));
+}
+vec VEC_bitr(vec a, u8 shift) {
+    return VEC2D(a.x >> shift, a.y >> shift);
+}
+vec VEC_bitl(vec a, u8 shift) {
+    return VEC2D(a.x << shift, a.y << shift);
+}

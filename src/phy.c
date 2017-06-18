@@ -7,7 +7,7 @@
 
 #include <genesis.h>
 #include "vec.h"
-#include "phys.h"
+#include "phy.h"
 
 // Entity
 
@@ -399,4 +399,10 @@ u8 PHY_manifold_circle_rect(PHY_manifold *m) {
     m->penetration = fix32Sub(r, d);
 
     return TRUE;
+}
+
+// Core Functions
+
+u8 PHY_update(PHY_entity e) {
+
 }

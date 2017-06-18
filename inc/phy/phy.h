@@ -1,12 +1,12 @@
 /*
- * File Name: phys.h
+ * File Name: phy.h
  * . . . .-. .   .   .-. . . . `' .-.   .-. .-. .-. .-. .  .
  * | | |  |  |   |   | | | | | `' `-.   |  )|(  |-  |-| |\/|
  * `.'.' `-' `-' `-' `-' `.'.'    `-'   `-' ' ' `-' ` ' '  `
  */
 
-#ifndef PHYS_H_
-#define PHYS_H_
+#ifndef PHY_H_
+#define PHY_H_
 
 #include <genesis.h>
 #include "vec.h"
@@ -17,7 +17,8 @@
 // Defaults
 
 #define PHY_APPROX TRUE
-#define PHY_STEP (fix32Div(FIX32(1), FIX32(60)))
+#define PHY_FPS (FIX32(60))
+#define PHY_TIMESTEP (fix32Div(FIX32(1), PHY_FPS))
 #define PHY_POS_CORRECTION_PERC (FIX32(0.2)) // Usually 20% to 80%
 #define PHY_POS_CORRECTION_SLOP (FIX32(0.01)) // Usually 0.01 to 0.1
 
@@ -42,15 +43,32 @@
 #define PHY_TYPE_RECT 2
 #define PHY_TYPE_CIRCLE 3
 
+typedef struct PHY_shape {
+    u8 type;
+    vec pos;
+} PHY_shape;
+
+typedef struct PHY_mass {
+    f32 mass;
+    f32 inv_mass;
+    f32 inertia;
+    f32 inverse_inertia;
+} PHY_mass;
+
+typedef struct PHY_material {
+    f32 density;
+    f32 restitution;
+} PHY_material;
+#define PHY_material(a, b, c, d) vec2_lim { VEC(a, b); VEC(c, d) }
+
 typedef struct PHY_entity {
     u8 type;
     vec pos;
     vec vel;
-    vec acc;
+    vec force;
     f32 rotation;
-    f32 mass;
     f32 restitution;
-    f32 inv_mass;
+    PHY_mass mass;
 } PHY_entity;
 const struct PHY_Entity = {
     PHY_TYPE_POINT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0)
