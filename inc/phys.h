@@ -18,6 +18,8 @@
 
 #define PHY_APPROX TRUE
 #define PHY_STEP (fix32Div(FIX32(1), FIX32(60)))
+#define PHY_POS_CORRECTION_PERC (FIX32(0.2)) // Usually 20% to 80%
+#define PHY_POS_CORRECTION_SLOP (FIX32(0.01)) // Usually 0.01 to 0.1
 
 // Scale Constants
 
@@ -47,9 +49,11 @@ typedef struct PHY_entity {
     vec acc;
     f32 rotation;
     f32 mass;
+    f32 restitution;
+    f32 inv_mass;
 } PHY_entity;
 const struct PHY_Entity = {
-    PHY_TYPE_POINT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0)
+    PHY_TYPE_POINT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0)
 };
 
 typdef struct PHY_rect {
@@ -57,7 +61,7 @@ typdef struct PHY_rect {
     vec size;
 } PHY_rect;
 const struct PHY_Rect = {
-    PHY_TYPE_RECT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), VEC_F32(0, 0)
+    PHY_TYPE_RECT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0), VEC_F32(0, 0)
 };
 
 typedef struct PHY_circle {
@@ -65,12 +69,16 @@ typedef struct PHY_circle {
     f32 radius;
 } PHY_circle;
 const struct PHY_Circle = {
-    PHY_TYPE_CIRCLE, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0)
+    PHY_TYPE_CIRCLE, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0), FIX32(0)
 };
+
+PHY_entity PHY_init_entity(f32 mass, f32 restitution);
+PHY_rect PHY_init_rect(f32 mass, f32 restitution, vec size);
+PHY_circle PHY_init_circle(Sprite spr, f32 mass, f32 restitution, f32 radius);
 
 // Bounds
 
-vec_lim PHY_get_bounds(PHY_entity a, PHY_entity b);
+vec_lim PHY_bounds(PHY_entity a, PHY_entity b);
 vec_lim PHY_bounds_vec(vec v);
 vec_lim PHY_bounds_point(PHY_entity e);
 vec_lim PHY_bounds_rect(PHY_rect e);
@@ -89,6 +97,20 @@ u8 PHY_collision_circle_rect(PHY_circle a, PHY_rect b);
 
 // Impulse Resolution
 
+vec PHY_momentum(PHY_entity e);
+f32 PHY_impulse(PHY_entity a, PHY_entity b);
+u8 PHY_resolve(PHY_entity *a, PHY_entity *b);
 
+// Manifold Generation
+
+typedef struct PHY_manifold {
+    PHY_entity *a;
+    PHY_entity *b;
+    f32 penetration;
+    vec normal;
+} PHY_manifold;
+
+u8 PHY_manifold_circle_circle(PHY_manifold *m);
+u8 PHY_manifold_rect_rect(PHY_manifold *m);
 
 #endif

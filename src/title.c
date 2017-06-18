@@ -64,7 +64,11 @@ void SCN_title_sprite() {
 }
 
 void SCN_title_joy(u16 joy, u16 changed, u16 state) {
+    if (state & BUTTON_START) {
 
+    } else if (changed & BUTTON_START) {
+        SCN_loadScene(&SCN_phys_test);
+    }
 }
 
 void SCN_title_updateLogic() {

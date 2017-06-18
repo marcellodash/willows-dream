@@ -1,4 +1,4 @@
-# Willow's Dream <small>Proposal</small>
+# Proposal
 
 ## Overview
 
