@@ -42,13 +42,11 @@ For the versions available, see the [tags on this repository](https://github.com
 ## Authors
 
 * **D Cooper Dalrymple** - *Lead Developer* - [Website](https://dcdalrymple.com/) - [GitHub](https://github.com/dcooperdalrymple/)
+* **Malcolm Brooks** - *Storyboard Writer* - [GitHub](https://github.com/MalcolmBrooks2)
+* **Hannibal Brooks** - *Storyboard Writer*
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
 This project is licensed under GNU LGPL V3.0 - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-* Samantha Marie Johnna Earley
