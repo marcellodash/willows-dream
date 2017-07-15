@@ -3,16 +3,30 @@ layout: default
 title: Welcome
 ---
 
-{% for post in site.posts %}
 
-<article class='post'>
-  <h1 class='post-title'>
-    <a href="{{ site.path }}{{ post.url }}">
-      {{ post.title }}
-    </a>
-  </h1>
-  <div class="post-date">{{ post.date | date: "%b %-d, %Y" }}</div>
-  {{ post.content }}
-</article>
 
-{% endfor %}
+<section>
+    <header class="section-header">
+        <h2>Blog</h2>
+    </header>
+
+    {% for post in site.posts limit:3 %}
+
+    <article class="entry">
+        <header class="entry-header">
+            <h3 class="entry-title">
+                <a href="{{ site.path }}{{ post.url }}" title="{{ post.title }}" rel="bookmark">{{ post.title }}</a>
+            </h3>
+            <ul class="meta">
+                <li class="post-date">{{ post.date | date: "%b %-d, %Y" }}</li>
+            </ul>
+        </header>
+        {{ post.content }}
+    </article>
+
+    {% endfor %}
+
+    <footer class="section-footer">
+        <a href="{{ site.path }}/blog.html">View Blog</a>
+    </footer>
+</section>
