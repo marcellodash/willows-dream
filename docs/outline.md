@@ -1,4 +1,9 @@
-# Plot Outline
+---
+layout: default
+title: Story Outline
+---
+
+# Story Outline
 
 ## Introduction
 

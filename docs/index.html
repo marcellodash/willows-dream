@@ -3,7 +3,9 @@ layout: default
 title: Welcome
 ---
 
-
+{% for page in {{ site.pages | where:"title","Front" }} %}
+<article class="page">{{ page.content }}</article>
+{% endfor %}
 
 <section>
     <header class="section-header">

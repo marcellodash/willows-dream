@@ -1,10 +1,11 @@
-# theme: jekyll-minimal-theme
+theme: jekyll-minimal-theme
+title: Willow's Dream
 author:
-name: Willow's Dream
+    name: Willow's Dream Team
 description: An Action-RPG homebrew ROM game developed for the Sega Genesis/Mega Drive.
 
 path: /willows-dream
-url: http://github.com/dcooperdalrymple/willows-dream
+url: http://dcooperdalrymple.github.io/willows-dream
 
 markdown: kramdown
 
