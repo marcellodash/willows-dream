@@ -26,7 +26,7 @@ typedef struct PHY_shape {
     f32 radius; // For circle
 } PHY_shape;
 const struct PHY_Shape = {
-    PHY_SHAPE_POINT, VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0)
+    PHY_SHAPE_NONE, VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0)
 };
 
 // Constructors
