@@ -1,0 +1,38 @@
+<<<<<<< HEAD:docs/archive.html
+---
+layout: default
+title: Archive
+---
+
+<h1>Archive</h1>
+
+{% for post in site.posts %}
+
+<div>
+  {{ post.date | date: "%b %-d, %Y" }}
+    »
+  <span class='post-title'>
+    <a href="{{ site.path }}{{ post.url }}">{{ post.title }}</a>
+  </span>
+</div>
+
+{% endfor %}
+=======
+---
+layout: default
+title: Archive
+---
+
+<h1>Archive</h1>
+
+{% for post in site.posts %}
+
+<div>
+  {{ post.date | date: "%b %-d, %Y" }} »
+  <span class='post-title'>
+    <a href="{{ site.path }}{{ post.url }}">{{ post.title }}</a>
+  </span>
+</div>
+
+{% endfor %}
+>>>>>>> 506c29a1885e66f5864528172ed66fa1c58602f8:docs/blog.html

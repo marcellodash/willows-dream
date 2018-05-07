@@ -38,80 +38,30 @@
 
 // Physics Entity Types
 
-#define PHY_TYPE_NONE 0
-#define PHY_TYPE_POINT 1
-#define PHY_TYPE_RECT 2
-#define PHY_TYPE_CIRCLE 3
-
-typedef struct PHY_shape {
-    u8 type;
-    vec pos;
-} PHY_shape;
-
-typedef struct PHY_mass {
-    f32 mass;
-    f32 inv_mass;
-    f32 inertia;
-    f32 inverse_inertia;
-} PHY_mass;
-
-typedef struct PHY_material {
-    f32 density;
-    f32 restitution;
-} PHY_material;
-#define PHY_material(a, b, c, d) vec2_lim { VEC(a, b); VEC(c, d) }
-
 typedef struct PHY_entity {
-    u8 type;
+    PHY_shape shape;
+    PHY_mass mass;
+    PHY_material material;
+
     vec pos;
     vec vel;
     vec force;
     f32 rotation;
-    f32 restitution;
-    PHY_mass mass;
+
+    u16 layers; // layers bitmask
+    // TODO: Define physics collision layers
 } PHY_entity;
 const struct PHY_Entity = {
-    PHY_TYPE_POINT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0)
+    PHY_Shape, PHY_Mass, PHY_Material,
+    VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0),
+    0
 };
 
-typdef struct PHY_rect {
-    struct PHY_entity;
-    vec size;
-} PHY_rect;
-const struct PHY_Rect = {
-    PHY_TYPE_RECT, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0), VEC_F32(0, 0)
-};
-
-typedef struct PHY_circle {
-    struct PHY_entity;
-    f32 radius;
-} PHY_circle;
-const struct PHY_Circle = {
-    PHY_TYPE_CIRCLE, VEC_F32(0, 0), VEC_F32(0, 0), VEC_F32(0, 0), FIX32(0), FIX32(0), FIX32(0), FIX32(0), FIX32(0)
-};
-
-PHY_entity PHY_init_entity(f32 mass, f32 restitution);
-PHY_rect PHY_init_rect(f32 mass, f32 restitution, vec size);
-PHY_circle PHY_init_circle(Sprite spr, f32 mass, f32 restitution, f32 radius);
-
-// Bounds
-
-vec_lim PHY_bounds(PHY_entity a, PHY_entity b);
-vec_lim PHY_bounds_vec(vec v);
-vec_lim PHY_bounds_point(PHY_entity e);
-vec_lim PHY_bounds_rect(PHY_rect e);
-vec_lim PHY_bounds_circle(PHY_circle e);
-
-// Collision Detection
-
-u8 PHY_collision(PHY_entity a, PHY_entity b);
-u8 PHY_collision_bounds(vec_lim a, vec_lim b);
-u8 PHY_collision_point(PHY_entity a, PHY_entity b, u8 approx);
-u8 PHY_collision_rect(PHY_rect a, PHY_rect b);
-u8 PHY_collision_rect_point(PHY_rect a, PHY_entity b, u8 approx);
-u8 PHY_collision_circle(PHY_circle a, PHY_circle b);
-u8 PHY_collision_circle_point(PHY_circle a, PHY_entity b);
-u8 PHY_collision_circle_rect(PHY_circle a, PHY_rect b);
+typedef struct PHY_pair {
+    PHY_entity *a;
+    PHY_entity *b;
+} PHY_pair;
+#define PHY_PAIR(a, b) PHY_pair { a; b; }
 
 // Impulse Resolution
 
@@ -130,5 +80,10 @@ typedef struct PHY_manifold {
 
 u8 PHY_manifold_circle_circle(PHY_manifold *m);
 u8 PHY_manifold_rect_rect(PHY_manifold *m);
+
+// Core Functions
+
+u8 PHY_update(PHY_entity *e);
+u8 PHY_generatePairs();
 
 #endif

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 layout: default
 title: Welcome
@@ -19,3 +20,39 @@ title: Welcome
 </article>
 
 {% endfor %}
+=======
+---
+layout: default
+title: Welcome
+---
+
+{% for page in {{ site.pages | where:"title","Front" }} %}
+<article class="page">{{ page.content }}</article>
+{% endfor %}
+
+<section>
+    <header class="section-header">
+        <h2>Blog</h2>
+    </header>
+
+    {% for post in site.posts limit:3 %}
+
+    <article class="entry">
+        <header class="entry-header">
+            <h3 class="entry-title">
+                <a href="{{ site.path }}{{ post.url }}" title="{{ post.title }}" rel="bookmark">{{ post.title }}</a>
+            </h3>
+            <ul class="meta">
+                <li class="post-date">{{ post.date | date: "%b %-d, %Y" }}</li>
+            </ul>
+        </header>
+        {{ post.content }}
+    </article>
+
+    {% endfor %}
+
+    <footer class="section-footer">
+        <a href="{{ site.path }}/blog.html">View Blog</a>
+    </footer>
+</section>
+>>>>>>> 506c29a1885e66f5864528172ed66fa1c58602f8

@@ -9,207 +9,6 @@
 #include "vec.h"
 #include "phy.h"
 
-// Entity
-
-PHY_entity PHY_init_entity(f32 mass, f32 restitution) {
-    // Init basic entity
-    PHY_entity e = PHY_Entity;
-
-    // Set constants
-    e.mass = mass;
-    e.restitution = restitution;
-
-    // Calculate constants
-    if (e.mass == 0)
-        e.inv_mass = 0;
-    else
-        e.inv_mass = fix32Div(FIX32(1), e.mass);
-
-    return e;
-}
-PHY_rect PHY_init_rect(f32 mass, f32 restitution, vec size) {
-    // Init basic entity and cast to struct
-    PHY_rect e = *((PHY_rect*) &PHY_init_entity(mass, restitution));
-
-    // Set constants
-    e.size = size;
-
-    return e;
-}
-PHY_circle PHY_init_circle(Sprite spr, f32 mass, f32 restitution, f32 radius) {
-    // Init basic entity and cast to struct
-    PHY_circle e = *((PHY_circle*) &PHY_init_entity(mass, restitution));
-
-    // Set constants
-    e.radius = radius;
-
-    return e;
-}
-
-// Bounds
-
-vec_lim PHY_bounds(PHY_entity e) {
-    switch (e->type) {
-        case PHY_TYPE_RECT:
-            PHY_bounds_rect(e);
-            break;
-        case PHY_TYPE_CIRCLE:
-            PHY_bounds_cirlce(e);
-            break;
-    }
-
-    return Vec_Lim;
-}
-
-vec_lim PHY_bounds_vec(vec v) {
-    return VEC_LIM(v.x, v.y, v.x, v.y);
-}
-
-vec_lim PHY_bounds_point(PHY_entity e) {
-    return PHY_bounds_vec(e.pos);
-}
-
-// TODO: Apply rotation to rectangle bounds?
-vec_lim PHY_bounds_rect(PHY_rect e) {
-    vec_lim b = Vec_Lim;
-
-    b.min.x = (e.size.x >> 1) - e.pos.x;
-    b.max.x = (e.size.x >> 1) + e.pos.x;
-
-    b.min.y = (e.size.y >> 1) - e.pos.y;
-    b.max.y = (e.size.y >> 1) + e.pos.y;
-
-    return b;
-}
-
-vec_lim PHY_bounds_circle(PHY_circle e) {
-    vec_lim b = Vec_Lim;
-
-    b.min.x = e.radius - e.pos.x;
-    b.max.x = e.radius + e.pos.x;
-
-    b.min.y = e.radius - e.pos.y;
-    b.max.y = e.radius + e.pos.y;
-
-    return b;
-}
-
-// Collision Detection
-
-u8 PHY_collision(PHY_entity a, PHY_entity b) {
-    switch (a->type) {
-        case PHYS_TYPE_POINT:
-            switch (b->type) {
-                case PHYS_TYPE_POINT:
-                    return PHY_collision_point(a, b);
-                    break;
-                case PHYS_TYPE_RECT:
-                    return PHY_collision_rect_point(b, a);
-                    break;
-                case PHYS_TYPE_CIRCLE:
-                    return PHY_collision_circle_point(b, a);
-                    break;
-            }
-            break;
-        case PHYS_TYPE_RECT:
-            switch (b->type) {
-                case PHYS_TYPE_POINT:
-                    return PHY_collision_rect_point(a, b);
-                    break;
-                case PHYS_TYPE_RECT:
-                    return PHY_collision_rect(a, b);
-                    break;
-                case PHYS_TYPE_CIRCLE:
-                    return PHY_collision_circle_rect(b, a);
-                    break;
-            }
-            break;
-        case PHYS_TYPE_CIRCLE:
-            switch (b->type) {
-                case PHYS_TYPE_POINT:
-                    return PHY_collision_circle_point(a, b);
-                    break;
-                case PHYS_TYPE_RECT:
-                    return PHY_collision_circle_rect(a, b);
-                    break;
-                case PHYS_TYPE_CIRCLE:
-                    return PHY_collision_circle(a, b);
-                    break;
-            }
-            break;
-    }
-
-    return FALSE;
-}
-
-u8 PHY_collision_bounds(vec_lim a, vec_lim b) {
-    if (a.max.x < b.min.x || a.min.x > b.max.x) return FALSE;
-    if (a.max.y < b.min.y || a.min.y > b.max.y) return FALSE;
-
-    return TRUE;
-}
-
-u8 PHY_collision_point(PHY_entity a, PHY_entity b, u8 approx = PHY_APPROX) {
-    if (approx == TRUE) { // Pixel Approximation
-        if (mToInt(a.pos.x) == mToInt(b.pos.x) && mToInt(a.pos.y) == mToInt(b.pos.y)) return TRUE;
-    } else {
-        if (a.pos.x == b.pos.x && a.pos.y == b.pos.y) return TRUE;
-    }
-
-    return FALSE;
-}
-
-u8 PHY_collision_rect(PHY_rect a, PHY_rect b) {
-    return PHY_collision_bounds(PHY_bounds_rect(a), PHY_bounds_rect(b));
-}
-u8 PHY_collision_rect_point(PHY_rect a, PHY_entity b, u8 approx = PHY_APPROX) {
-    vec_lim ab = PHY_bounds_rect(a);
-
-    if (approx == TRUE) {
-        u16 bx = mToInt(b.pos.x), by = mToInt(b.pos.y);
-        if (mToInt(ab.min.x) > bx || mToInt(ab.max.x) < bx) return FALSE;
-        if (mToInt(ab.min.y) > by || mToInt(ab.max.y) < by) return FALSE;
-        return TRUE;
-    }
-
-    return PHY_collision_bounds(PHY_bounds_rect(a), PHY_bounds_point(b));
-}
-
-u8 PHY_collision_circle(PHY_circle a, PHY_circle b) {
-    if (PHY_collision_bounds(PHY_bounds_circle(a), PHY_bounds_circle(b)) == FALSE) return FALSE;
-    return fix32Add(a.radius, b.radius) < PHY_distance_sq(a.pos, b.pos);
-}
-u8 PHY_collision_circle_point(PHY_circle a, PHY_entity b) {
-    if (PHY_collision_bounds(PHY_bounds_circle(a), PHY_bounds_point(b)) == FALSE) return FALSE;
-    return a.radius < PHY_distance_sq(a.pos, b.pos);
-}
-u8 PHY_collision_circle_rect(PHY_circle a, PHY_rect b) {
-    // Get center distance
-    Vect2D_f32 d = VECT2D(abs(fix32Sub(a.pos.x - b.pos.x)), abs(fix32Sub(a.pos.y - b.pos.y)));
-    // Get half size of rectangle
-    Vect2D_f32 bs = VECT2D(b.size.x >> 1, b.size.y >> 1);
-
-    // If entities are not within axes
-    if (d.x > bs.x + a.radius) return FALSE;
-    if (d.y > bs.y + a.radius) return FALSE;
-
-    // If circle is close enough that an intersection is guaranteed
-    if (d.x <= bs.x) return TRUE;
-    if (d.y <= bs.y) return TRUE;
-
-    // If circle intersects corner
-    return PHY_distance_sq(d, bs) <= a.radius * a.radius;
-
-    /* Alternate Version (not complete)
-    // 1. If objects are within axes
-    if (PHY_collision_bounds(PHY_bounds_circle(a), PHY_bounds_rect(b)) == FALSE) return FALSE;
-    // 2. If center of circle is within rectangle
-    if (PHY_collision_bounds(PHY_bounds_vec(a.pos), PHY_bounds_rect(b)) == TRUE) return TRUE;
-    // 3. If the distance of the circle to the nearest point of the rectangle
-    // max, min, etc
-    */
-}
-
 // Impulse Resolution
 
 vec PHY_momentum(PHY_entity e) {
@@ -402,6 +201,65 @@ u8 PHY_manifold_circle_rect(PHY_manifold *m) {
 
 // Core Functions
 
-u8 PHY_update(PHY_entity e) {
+u8 PHY_update(PHY_entity *bodies) {
+    u8 i;
+    u8 body_count = sizeof(bodies) / sizeof(PHY_entity);
+    if (body_count <= 0 || body_count == NULL) return FALSE;
 
+    // Handle collisions
+    PHY_pair* pairs = PHY_generatePairs(bodies);
+    u8 pair_count = sizeof(pairs) / sizeof(PHY_pair);
+    for (i = 0; i < pair_count; i++) {
+        PHY_resolve(pairs[i]->a, pairs[i]->b);
+        //PHY_positional_correction(pairs[i]->a, pairs[i]->b);
+    }
+
+    // Handle positions/velocities
+    for (i = 0; i < body_count; i++) {
+        // Symplectic Euler
+        e->vel = VEC_add(e->vel, VEC_scalar_mul(e->force, fix32Mul(e->mass.inv_mass, PHY_TIMESTEP)));
+        e->pos = VEC_add(e->pos, VEC_scalar_mul(e->vel, PHY_TIMESTEP));
+    }
+
+    return TRUE;
+}
+
+PHY_pair* PHY_generatePairs(PHY_entity *bodies) {
+
+    u8 pair_count = 0;
+    PHY_pair *pairs = (PHY_pair*)malloc(pair_count * sizeof(PHY_pair));
+
+    u8 i, j, k, dupe;
+    u8 body_count = sizeof(bodies) / sizeof(PHY_entity);
+
+    for (i = 0; i < body_count; i++) {
+        for (j = 0; j < body_count; j++) {
+            // Skip check with self
+            if (i == j) continue;
+
+            PHY_entity *a = bodies[i];
+            PHY_entity *b = bodies[j];
+
+            // Only matching layers will be considered
+            if (!(a->layers & b->layers)) continue;
+
+            // Cull duplicates
+            dupe = FALSE
+            for (k = 0; k < pair_count; k++) {
+                if (pairs[k]->a == a && pairs[k] == b) {
+                    dupe = TRUE;
+                    break;
+                }
+            }
+            if (dupe == TRUE) continue;
+
+            if (PHY_collision(a->shape, b->shape)) {
+                pair_count++;
+                pairs = (PHY_pair*)malloc(pair_count * sizeof(PHY_pair));
+                pairs[pair_count - 1] = PHY_PAIR(a, b);
+            }
+        }
+    }
+
+    return pairs;
 }
